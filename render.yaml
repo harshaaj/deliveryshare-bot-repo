@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: deliveryshare-bot
+    env: python
+    buildCommand: |
+      pip install --upgrade pip
+      pip install python-telegram-bot[job-queue]==22.5
+      pip install -r requirements.txt
+    startCommand: python bot.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: TELEGRAM_BOT_TOKEN
+        fromService:
+          name: deliveryshare-bot
+          type: env_var_group
+          property: TELEGRAM_BOT_TOKEN
+    plan: free
+    autoDeploy: true
